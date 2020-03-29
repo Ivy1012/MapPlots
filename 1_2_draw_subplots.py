@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[3]:
-
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 from cartopy.mpl.ticker import LongitudeFormatter, LatitudeFormatter
@@ -11,28 +8,19 @@ import cartopy.feature as cfeat
 import cartopy.crs as ccrs
 from netCDF4 import Dataset
 import xarray as xr
+import numpy as np
 
-
-# In[34]:
-
-
-ddir = '/Users/sundanyi/Documents/Myresearch/1_blocking/inputData/'
+ddir = './inputData/'
 
 f = xr.open_dataset(ddir + 'ERA-Interim_hgt_25x25_300_19790101_20181231.float.daily.nc')
 hgt = f['z']/9.8
 lon = f['longitude']
 lat = f['latitude']
-
 lat = lat.sel(latitude = slice(35,82.5))
 
 hgt_ts = hgt.sel(time = slice(20001201,20010228))
 hgt_box = hgt_ts.sel(latitude = slice(35,82.5))
 
-
-# In[90]:
-
-
-import numpy as np
 sns.set_style('white', {'font.family': 'Times New Roman'})
 lon_formatter = LongitudeFormatter()
 lat_formatter = LatitudeFormatter()
@@ -64,10 +52,4 @@ for i in range(numRows):
         ax.yaxis.set_major_formatter(lat_formatter)
         ax.add_feature(cfeat.COASTLINE, edgecolor='#333333')
 plt.savefig('./hgt.pdf')
-
-
-# In[ ]:
-
-
-
 
